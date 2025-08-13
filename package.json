@@ -1,0 +1,14 @@
+{
+  "name": "atropos-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "lint": "pnpm -C backend lint && pnpm -C frontend lint",
+    "format": "pnpm -C backend format && pnpm -C frontend format",
+    "typecheck": "pnpm -C backend typecheck && pnpm -C frontend typecheck",
+    "dev": "pnpm -C backend start:dev",
+    "dev:frontend": "pnpm -C frontend dev",
+    "build": "pnpm -C backend build && pnpm -C frontend build"
+  }
+}
+
