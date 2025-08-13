@@ -27,5 +27,6 @@ export default tseslint.config(
       ...eslintPluginReactRefresh.configs.vite.rules
     }
   },
+  // Keep Prettier as a standalone formatter and disable conflicting rules
   eslintConfigPrettier
 )
