@@ -86,3 +86,13 @@
 | **Kod Kalitesi** | ESLint + Prettier |
 | **Versiyon Kontrolü** | Git |
 | **Runtime** | Node.js |
+
+
+#### **yardımcı komutlar**
+
+Lint çalıştırma:
+Backend: pnpm -C backend lint
+Frontend: pnpm -C frontend lint
+Formatlama:
+Backend: pnpm -C backend format
+Frontend: pnpm -C frontend format
