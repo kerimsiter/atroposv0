@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common'
 
 @Controller('api')
 export class AppController {
@@ -6,6 +6,6 @@ export class AppController {
 
   @Get('health')
   getHealth(): { status: string } {
-    return { status: 'ok' };
+    return { status: 'ok' }
   }
 }

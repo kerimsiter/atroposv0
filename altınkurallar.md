@@ -90,9 +90,9 @@
 
 #### **yardımcı komutlar**
 
-Lint çalıştırma:
-Backend: pnpm -C backend lint
-Frontend: pnpm -C frontend lint
-Formatlama:
-Backend: pnpm -C backend format
-Frontend: pnpm -C frontend format
+Lint: pnpm run lint
+Format: pnpm run format
+Typecheck: pnpm run typecheck
+Backend dev: pnpm run dev
+Frontend dev: pnpm run dev:frontend
+Build: pnpm run build
