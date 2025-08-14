@@ -38,14 +38,14 @@ export default function LoginPin({ employee, onBack, onSuccess }: Props): JSX.El
     <div className="relative h-screen w-full">
       <HeroBackground />
       <div className="pointer-events-none absolute inset-0 flex items-center justify-end p-8">
-        <div className="pointer-events-auto w-full max-w-md rounded-3xl border border-neutral-200 bg-white p-6 shadow-xl backdrop-blur-lg">
-          <h2 className="mb-1 text-2xl font-semibold text-neutral-900">Enter PIN</h2>
-          <p className="mb-4 text-sm text-neutral-500">{employee ? `Employee: ${employee.name}` : 'Select employee first'}</p>
+        <div className="pointer-events-auto w-full max-w-md rounded-3xl border border-neutral-200 bg-white p-6 shadow-xl backdrop-blur-lg dark:border-neutral-700 dark:bg-neutral-800">
+          <h2 className="mb-1 text-2xl font-semibold text-neutral-900 dark:text-neutral-100">Enter PIN</h2>
+          <p className="mb-4 text-sm text-neutral-500 dark:text-neutral-400">{employee ? `Employee: ${employee.name}` : 'Select employee first'}</p>
           {error && <div className="mb-3 rounded bg-error-500 px-3 py-2 text-sm text-white">{error}</div>}
           <div className={submitting ? 'opacity-60 pointer-events-none' : ''}>
             <PinPad onBack={onBack} onSubmit={handleSubmit} />
           </div>
-          {submitting && <div className="mt-3 text-center text-sm text-neutral-500">Doğrulanıyor...</div>}
+          {submitting && <div className="mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400">Doğrulanıyor...</div>}
         </div>
       </div>
     </div>

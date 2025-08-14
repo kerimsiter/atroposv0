@@ -85,14 +85,16 @@ export default {
           '@apply hover:opacity-95 active:opacity-90': {},
         },
         '.btn-outline': {
-          '@apply border border-neutral-200 text-neutral-800 bg-white hover:bg-neutral-100': {},
+          '@apply border border-neutral-200 text-neutral-800 bg-white hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700': {},
         },
         '.input': {
-          '@apply w-full rounded-xl border border-neutral-200 bg-white px-5 py-4 text-[14px] text-neutral-500 placeholder-neutral-500 focus:border-primary-400 focus:ring-0':
-            {},
+          '@apply w-full rounded-xl border border-neutral-200 bg-white px-5 py-4 text-[14px] text-neutral-500 placeholder-neutral-500 focus:border-primary-400 focus:ring-0 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:placeholder-neutral-500': {},
         },
         '.link': {
-          '@apply text-primary-700 hover:opacity-90': {},
+          '@apply text-primary-700 hover:opacity-90 dark:text-primary-400': {},
+        },
+        '.card-surface': {
+          '@apply rounded-3xl border border-neutral-200 bg-white shadow-xl dark:border-neutral-700 dark:bg-neutral-800': {},
         },
       })
     },

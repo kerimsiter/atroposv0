@@ -18,7 +18,7 @@ export default function EmployeeList({ employees, selectedId, onSelect }: Props)
             'flex w-full items-center justify-between rounded-2xl border px-4 py-3 shadow-sm transition ' +
             (selectedId === e.id
               ? 'border-primary-500 ring-2 ring-primary-500/25'
-              : 'border-neutral-200 hover:border-primary-500/50')
+              : 'border-neutral-200 hover:border-primary-500/50 dark:border-neutral-700')
           }
         >
           <div className="flex items-center gap-3">
@@ -26,11 +26,11 @@ export default function EmployeeList({ employees, selectedId, onSelect }: Props)
               {(e.name ?? '?').charAt(0)}
             </div>
             <div className="text-left">
-              <div className="font-medium">{e.name}</div>
-              {e.shift && <div className="text-xs text-neutral-500">{e.shift}</div>}
+              <div className="font-medium text-neutral-900 dark:text-neutral-100">{e.name}</div>
+              {e.shift && <div className="text-xs text-neutral-500 dark:text-neutral-400">{e.shift}</div>}
             </div>
           </div>
-          <div className="text-sm text-neutral-500">{selectedId === e.id ? 'Selected' : ''}</div>
+          <div className="text-sm text-neutral-500 dark:text-neutral-400">{selectedId === e.id ? 'Selected' : ''}</div>
         </button>
       ))}
     </div>

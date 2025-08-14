@@ -58,7 +58,7 @@ function App(): JSX.Element {
       {/* Simple theme toggle button for demo */}
       <button
         onClick={toggleTheme}
-        className="absolute right-4 top-4 rounded-full border border-neutral-200 bg-white px-3 py-1 text-sm shadow"
+        className="absolute right-4 top-4 rounded-full border border-neutral-200 bg-white px-3 py-1 text-sm shadow dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
       >
         Theme: {theme}
       </button>

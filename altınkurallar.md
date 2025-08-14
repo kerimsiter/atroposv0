@@ -23,6 +23,7 @@
     *   `frontend/src/renderer/src/assets/main.css` → temel `@tailwind` direktifleri ve global importlar
     *   `frontend/src/renderer/src/assets/base.css` → reset, değişkenler, global yardımcı kurallar
     Bu iki dosya dışında bileşen-özel stil oluşturulmaz.
+    -  __Tema Uyumu (Dark/Light)__: Uygulama, koyu ve aydınlık temaya tam uyumlu olmalıdır. __Hardcoded renk kullanımı YASAKTIR__. Sadece `tailwind.config.js` içinde tanımlı renk paleti, Tailwind utility sınıfları ve `dark:` varyantları kullanılacaktır. Gerekli yeni renkler palete eklenerek tüketilecektir.
 
 7.  **State: Zustand Store Sadece Global Durumlar İçindir:** Zustand'a her şey konulmaz. Sadece birden fazla, birbiriyle ilgisiz bileşenin ihtiyaç duyduğu global veriler konulur. Örnek: Giriş yapmış kullanıcı bilgisi, tema (karanlık/aydınlık), seçili olan şube bilgisi. Bir formun içindeki geçici veriler için `useState` yeterlidir.
 

@@ -7,7 +7,21 @@ interface AppState {
   toggleTheme: () => void
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  theme: 'light',
-  toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
+function getInitialTheme(): Theme {
+  try {
+    const saved = localStorage.getItem('theme') as Theme | null
+    if (saved === 'light' || saved === 'dark') return saved
+  } catch {}
+  return 'light'
+}
+
+export const useAppStore = create<AppState>((set, get) => ({
+  theme: getInitialTheme(),
+  toggleTheme: () => {
+    const next = get().theme === 'light' ? 'dark' : 'light'
+    try {
+      localStorage.setItem('theme', next)
+    } catch {}
+    set({ theme: next })
+  },
 }))

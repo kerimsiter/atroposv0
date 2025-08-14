@@ -49,7 +49,7 @@ export default function PinPad({ length = 4, onSubmit, onBack }: Props): JSX.Ele
               'h-4 w-4 rounded-full ' +
               (i < value.length
                 ? 'bg-primary-500'
-                : 'border border-neutral-200 bg-transparent')
+                : 'border border-neutral-200 bg-transparent dark:border-neutral-700')
             }
           />
         ))}
