@@ -2,15 +2,18 @@ import { useEffect, useMemo, useState, type JSX } from 'react'
 import { useAppStore } from './stores/app.store'
 import type { Employee } from '@renderer/types/auth'
 import LoginUserSelect from '@renderer/pages/LoginUserSelect'
+import Home from '@renderer/pages/Home'
 import LoginPin from '@renderer/pages/LoginPin'
 import LoginSuccessModal from '@renderer/components/LoginSuccessModal'
 import { getEmployees } from '@renderer/services/api'
 import { COMPANY_TAX, BRANCH_CODE } from '@renderer/config'
 
 type Step = 'select' | 'pin' | 'success'
+type Route = 'login' | 'home'
 
 function App(): JSX.Element {
   const { theme, toggleTheme } = useAppStore()
+  const [route, setRoute] = useState<Route>('login')
   const [step, setStep] = useState<Step>('select')
   const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
   const [successOpen, setSuccessOpen] = useState(false)
@@ -60,7 +63,7 @@ function App(): JSX.Element {
         Theme: {theme}
       </button>
 
-      {step === 'select' && (
+      {route === 'login' && step === 'select' && (
         <LoginUserSelect
           employees={employees}
           selectedId={selectedId}
@@ -78,19 +81,21 @@ function App(): JSX.Element {
         </div>
       )}
 
-      {step === 'pin' && (
+      {route === 'login' && step === 'pin' && (
         <LoginPin
           employee={selectedEmployee}
           onBack={() => setStep('select')}
           onSuccess={() => {
-            setStep('success')
+            setRoute('home')
             setSuccessOpen(true)
           }}
         />
       )}
 
+      {route === 'home' && <Home />}
+
       <LoginSuccessModal
-        open={step === 'success' && successOpen}
+        open={route === 'home' && successOpen}
         onClose={() => setSuccessOpen(false)}
         employeeName={selectedEmployee?.name}
         onStartShift={() => {
