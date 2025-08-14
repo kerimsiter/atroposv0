@@ -92,6 +92,7 @@ function App(): JSX.Element {
       <LoginSuccessModal
         open={step === 'success' && successOpen}
         onClose={() => setSuccessOpen(false)}
+        employeeName={selectedEmployee?.name}
         onStartShift={() => {
           setSuccessOpen(false)
         }}
