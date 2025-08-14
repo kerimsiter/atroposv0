@@ -68,17 +68,17 @@ export default function EmployeeDropdown({ employees, selectedId, onSelect, plac
         ref={btnRef}
         disabled={disabled}
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-left shadow-sm hover:border-[var(--color-primary)]/50"
+        className="flex w-full items-center justify-between rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-left shadow-sm hover:border-primary-500/50"
         aria-haspopup="listbox"
         aria-expanded={open}
       >
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full grid place-items-center bg-[var(--color-primary)] text-[var(--color-primary-contrast)]">
+          <div className="h-8 w-8 rounded-full grid place-items-center bg-primary-500 text-white">
             {(selected?.name ?? '?').charAt(0)}
           </div>
           <div className="flex-1">
             <div className="font-medium">{selected?.name || placeholder}</div>
-            <div className="text-xs text-muted">{selected ? 'Selected' : 'Choose an employee'}</div>
+            <div className="text-xs text-neutral-500">{selected ? 'Selected' : 'Choose an employee'}</div>
           </div>
         </div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-70"><path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -87,7 +87,7 @@ export default function EmployeeDropdown({ employees, selectedId, onSelect, plac
       {open && (
         <div
           ref={listRef}
-          className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-xl"
+          className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-xl"
           role="listbox"
         >
           <div className="p-2">
@@ -96,7 +96,7 @@ export default function EmployeeDropdown({ employees, selectedId, onSelect, plac
               value={query}
               onChange={(e) => { setQuery(e.target.value); setActiveIndex(0) }}
               placeholder="Search…"
-              className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-sm outline-none focus:border-[var(--color-primary)]"
+              className="w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm outline-none focus:border-primary-400"
             />
           </div>
           <div className="max-h-60 overflow-auto p-1">
@@ -109,23 +109,23 @@ export default function EmployeeDropdown({ employees, selectedId, onSelect, plac
                 className={
                   'flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left transition ' +
                   (selectedId === e.id
-                    ? 'bg-[color:var(--color-primary)]/10'
-                    : 'hover:bg-[color:var(--color-primary)]/10')
+                    ? 'bg-primary-500/10'
+                    : 'hover:bg-primary-500/10')
                 }
                 role="option"
                 aria-selected={selectedId === e.id}
               >
-                <div className="h-8 w-8 rounded-full grid place-items-center bg-[var(--color-primary)] text-[var(--color-primary-contrast)]">
+                <div className="h-8 w-8 rounded-full grid place-items-center bg-primary-500 text-white">
                   {(e.name ?? '?').charAt(0)}
                 </div>
                 <div>
                   <div className="font-medium">{e.name}</div>
-                  {e.shift && <div className="text-xs text-muted">{e.shift}</div>}
+                  {e.shift && <div className="text-xs text-neutral-500">{e.shift}</div>}
                 </div>
               </button>
             ))}
             {filtered.length === 0 && (
-              <div className="px-3 py-4 text-center text-sm text-muted">No matches</div>
+              <div className="px-3 py-4 text-center text-sm text-neutral-500">No matches</div>
             )}
           </div>
         </div>

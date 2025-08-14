@@ -48,21 +48,21 @@ export default function PinPad({ length = 4, onSubmit, onBack }: Props): JSX.Ele
             className={
               'h-4 w-4 rounded-full ' +
               (i < value.length
-                ? 'bg-[var(--color-primary)]'
-                : 'border border-[var(--color-border)] bg-transparent')
+                ? 'bg-primary-500'
+                : 'border border-neutral-200 bg-transparent')
             }
           />
         ))}
       </div>
       <div className="grid grid-cols-3 gap-3">
         {digits.slice(0,9).map((d) => (
-          <button key={d} onClick={() => press(d)} className="rounded-xl border border-[var(--color-border)] py-4 text-lg font-medium shadow-sm hover:bg-[var(--color-bg-muted)]">{d}</button>
+          <button key={d} onClick={() => press(d)} className="btn btn-outline py-4 text-lg font-medium">{d}</button>
         ))}
-        <button onClick={onBack} className="rounded-xl border border-[var(--color-border)] py-4 text-lg shadow-sm">←</button>
-        <button onClick={() => press('0')} className="rounded-xl border border-[var(--color-border)] py-4 text-lg font-medium shadow-sm hover:bg-[var(--color-bg-muted)]">0</button>
-        <button onClick={() => press('backspace')} className="rounded-xl border border-[var(--color-border)] py-4 text-lg shadow-sm">⌫</button>
+        <button onClick={onBack} className="btn btn-outline py-4 text-lg">←</button>
+        <button onClick={() => press('0')} className="btn btn-outline py-4 text-lg font-medium">0</button>
+        <button onClick={() => press('backspace')} className="btn btn-outline py-4 text-lg">⌫</button>
       </div>
-      <button onClick={confirm} disabled={value.length !== length} className="btn-primary mt-4 w-full rounded-full px-6 py-3 font-medium disabled:opacity-50">Login</button>
+      <button onClick={confirm} disabled={value.length !== length} className="btn btn-primary mt-4 w-full disabled:opacity-50">Login</button>
     </div>
   )
 }

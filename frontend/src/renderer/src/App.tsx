@@ -55,7 +55,7 @@ function App(): JSX.Element {
       {/* Simple theme toggle button for demo */}
       <button
         onClick={toggleTheme}
-        className="absolute right-4 top-4 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-sm shadow"
+        className="absolute right-4 top-4 rounded-full border border-neutral-200 bg-white px-3 py-1 text-sm shadow"
       >
         Theme: {theme}
       </button>
@@ -69,11 +69,10 @@ function App(): JSX.Element {
         />
       )}
 
-      {loading && <div className="absolute inset-x-0 top-4 mx-auto w-max rounded bg-[var(--color-surface)] px-3 py-1 text-sm shadow">Yükleniyor...</div>}
+      {loading && <div className="absolute inset-x-0 top-4 mx-auto w-max rounded bg-white px-3 py-1 text-sm text-neutral-700 shadow">Yükleniyor...</div>}
       {error && (
         <div
-          className="absolute inset-x-0 top-4 mx-auto w-max rounded px-3 py-1 text-sm shadow"
-          style={{ background: 'var(--color-danger)', color: 'var(--color-primary-contrast)' }}
+          className="absolute inset-x-0 top-4 mx-auto w-max rounded bg-error-500 px-3 py-1 text-sm text-white shadow"
         >
           {error}
         </div>
