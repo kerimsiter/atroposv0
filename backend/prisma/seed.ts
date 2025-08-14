@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client'
-import * as crypto from 'crypto'
+import * as bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
-const hashPin = (pin: string) => crypto.createHash('sha256').update(pin, 'utf8').digest('hex')
+const BCRYPT_ROUNDS = 10
+const hashPin = async (pin: string) => await bcrypt.hash(pin, BCRYPT_ROUNDS)
 
 async function main() {
   // Company
@@ -41,6 +42,8 @@ async function main() {
   ] as const
 
   for (const u of usersData) {
+    const pinHashed = await hashPin(u.pin)
+    const passHashed = await hashPin('password')
     await prisma.user.upsert({
       where: { username: u.username },
       update: {
@@ -49,8 +52,8 @@ async function main() {
         firstName: u.firstName,
         lastName: u.lastName,
         role: u.role as any,
-        pin: hashPin(u.pin),
-        password: hashPin('password'),
+        pin: pinHashed,
+        password: passHashed,
         active: true,
       },
       create: {
@@ -60,8 +63,8 @@ async function main() {
         firstName: u.firstName,
         lastName: u.lastName,
         role: u.role as any,
-        pin: hashPin(u.pin),
-        password: hashPin('password'),
+        pin: pinHashed,
+        password: passHashed,
         active: true,
       },
     })

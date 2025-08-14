@@ -1,14 +1,17 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
 import * as crypto from 'crypto'
+import * as bcrypt from 'bcryptjs'
+import { JwtService } from '@nestjs/jwt'
 
-function hashPin(pin: string): string {
-  return crypto.createHash('sha256').update(pin, 'utf8').digest('hex')
+const BCRYPT_ROUNDS = 10
+async function hashPin(pin: string): Promise<string> {
+  return await bcrypt.hash(pin, BCRYPT_ROUNDS)
 }
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly jwt: JwtService) {}
 
   async verifyPin(params: {
     companyTax: string
@@ -36,18 +39,12 @@ export class AuthService {
     })
     if (!user || !user.pin) throw new UnauthorizedException('Invalid credentials')
 
-    const hashed = hashPin(params.pin)
-    if (user.pin !== hashed) throw new UnauthorizedException('Invalid credentials')
+    const isValid = await bcrypt.compare(params.pin, user.pin)
+    if (!isValid) throw new UnauthorizedException('Invalid credentials')
 
-    // Minimal session token for now
-    const token = crypto.randomBytes(24).toString('hex')
-    await this.prisma.session.create({
-      data: {
-        userId: user.id,
-        branchId,
-        token,
-      },
-    })
-    return { ok: true, userId: user.id, sessionToken: token }
+    // Issue JWT (access token) and create session for audit if needed
+    const accessToken = await this.jwt.signAsync({ sub: user.id, companyId: user.companyId, branchId })
+    await this.prisma.session.create({ data: { userId: user.id, branchId, token: accessToken } })
+    return { ok: true, userId: user.id, sessionToken: accessToken }
   }
 }
