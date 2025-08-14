@@ -23,12 +23,56 @@
   --ev-button-alt-hover-bg: var(--ev-c-gray-2);
 }
 
+/* Raw Figma tokens (read-only mapping) */
 :root {
-  --color-background: var(--ev-c-black);
-  --color-background-soft: var(--ev-c-black-soft);
-  --color-background-mute: var(--ev-c-black-mute);
+  --figma-bg-white: #ffffff; /* bg/white */
+  --figma-bg-white-50: #f6f2ef; /* bg/white-50 */
+  --figma-bg-black: #000000; /* bg/Black */
+  --figma-base-dark-mode-bg: #101214; /* Base/Dark Mode BG */
+  --figma-bg-gray-800: #1a1816; /* bg/gray-800 */
+  --figma-bg-gray-700: #2d2d2d; /* bg/gray-700 */
+  --figma-bg-dark-gray: #0e0d0c; /* bg/dark-gray */
+  --figma-stroke-gray-100: #e5e2df; /* stroke/gray-100 */
+  --figma-stroke-gray-700: #2d2d2d; /* stroke/gray-700 */
+  --figma-text-white: #ffffff; /* text/white */
+  --figma-text-black: #0e0d0c; /* text/black */
+  --figma-text-gray-600: #868588; /* text/gray-600 */
+  --figma-text-gray-550: #c0c0c0; /* text/gray-550 */
+  --figma-text-darkgray-700: #2d2d2d; /* text/darkgray-700 */
+  --figma-icon-white: #f6f2ef; /* icon/white */
+  --figma-icon-green-400: #9bb167; /* icon/green-400 */
+  --figma-bg-green-400: #9bb167; /* bg/green-400 */
+  --figma-neutral-100: #e5e2df; /* neutral/100 */
+  /* Affirmations (orange) */
+  --figma-affirm-50: #fc4e03; /* Affirmations 50 */
+}
 
-  --color-text: var(--ev-c-text-1);
+/* Semantic theme variables bound to Figma tokens */
+:root {
+  /* Light theme (default) - match Figma
+     Background (page): #F6F2EF, Surfaces: #FFFFFF, Primary: #9BB167 */
+  --color-bg: var(--figma-bg-white-50);
+  --color-bg-muted: var(--figma-bg-white);
+  --color-surface: var(--figma-bg-white);
+  --color-text: var(--figma-text-black);
+  --color-text-muted: var(--figma-text-gray-600);
+  --color-border: var(--figma-stroke-gray-100);
+  --color-primary: var(--figma-bg-green-400);
+  --color-primary-contrast: var(--figma-text-white);
+  --color-danger: var(--figma-affirm-50);
+}
+
+.dark {
+  /* Dark theme */
+  --color-bg: var(--figma-base-dark-mode-bg);
+  --color-bg-muted: var(--figma-bg-gray-800);
+  --color-surface: var(--figma-bg-dark-gray);
+  --color-text: var(--figma-text-white);
+  --color-text-muted: var(--figma-text-gray-550);
+  --color-border: var(--figma-stroke-gray-700);
+  --color-primary: var(--figma-bg-green-400);
+  --color-primary-contrast: var(--figma-bg-dark-gray);
+  --color-danger: var(--figma-affirm-50);
 }
 
 *,
@@ -46,7 +90,7 @@ ul {
 body {
   min-height: 100vh;
   color: var(--color-text);
-  background: var(--color-background);
+  background: var(--color-bg);
   line-height: 1.6;
   font-family:
     Inter,
@@ -65,3 +109,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Utility surfaces */
+.surface {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+.btn-primary:hover { filter: brightness(0.97); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-primary) 30%, transparent); }
+.text-muted { color: var(--color-text-muted); }

@@ -1,56 +1,102 @@
-import { useState, type JSX } from 'react'
+import { useEffect, useMemo, useState, type JSX } from 'react'
 import { useAppStore } from './stores/app.store'
+import type { Employee } from '@renderer/types/auth'
+import LoginUserSelect from '@renderer/pages/LoginUserSelect'
+import LoginPin from '@renderer/pages/LoginPin'
+import LoginSuccessModal from '@renderer/components/LoginSuccessModal'
+import { getEmployees } from '@renderer/services/api'
+import { COMPANY_TAX, BRANCH_CODE } from '@renderer/config'
+
+type Step = 'select' | 'pin' | 'success'
 
 function App(): JSX.Element {
-  const [apiStatus, setApiStatus] = useState<string>('henüz kontrol edilmedi')
   const { theme, toggleTheme } = useAppStore()
+  const [step, setStep] = useState<Step>('select')
+  const [selectedId, setSelectedId] = useState<string | undefined>(undefined)
+  const [successOpen, setSuccessOpen] = useState(false)
 
-  const checkApiHealth = async (): Promise<void> => {
-    try {
-      const response = await fetch('http://localhost:3000/api/health')
-      if (!response.ok) {
-        throw new Error(`HTTP hatası! durum: ${response.status}`)
-      }
-      const data = await response.json()
-      setApiStatus(data.status)
-    } catch (error) {
-      console.error('API durumu alınırken hata oluştu:', error)
-      setApiStatus('hata')
+  const [employees, setEmployees] = useState<Employee[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const selectedEmployee: Employee | undefined = useMemo(
+    () => employees.find((e) => e.id === selectedId),
+    [employees, selectedId],
+  )
+
+  // Load employees from backend
+  useEffect(() => {
+    let mounted = true
+    setLoading(true)
+    setError(null)
+    getEmployees({ companyTax: COMPANY_TAX, branchCode: BRANCH_CODE })
+      .then((list) => {
+        if (!mounted) return
+        setEmployees(list)
+      })
+      .catch((e) => {
+        console.error(e)
+        if (mounted) setError('Çalışanlar yüklenemedi')
+      })
+      .finally(() => mounted && setLoading(false))
+    return () => {
+      mounted = false
     }
-  }
+  }, [])
+
+  // Sync theme to <html> class for Tailwind dark mode
+  useEffect(() => {
+    const root = document.documentElement
+    if (theme === 'dark') root.classList.add('dark')
+    else root.classList.remove('dark')
+  }, [theme])
 
   return (
-    <div className="container p-4 mx-auto">
-      <h1 className="mb-4 text-2xl font-bold">Atropos</h1>
-      <div className="p-4 mb-4 border rounded">
-        <h2 className="mb-2 text-xl font-semibold">Entegrasyon Testi</h2>
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={checkApiHealth}
-            className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-          >
-            API Durumunu Kontrol Et
-          </button>
-          <p>
-            API Durumu: <span className="font-semibold">{apiStatus}</span>
-          </p>
-        </div>
-      </div>
+    <div className="relative">
+      {/* Simple theme toggle button for demo */}
+      <button
+        onClick={toggleTheme}
+        className="absolute right-4 top-4 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-sm shadow"
+      >
+        Theme: {theme}
+      </button>
 
-      <div className="p-4 border rounded">
-        <h2 className="mb-2 text-xl font-semibold">Zustand Tema Yönetimi</h2>
-        <div className="flex items-center space-x-4">
-          <button
-            onClick={toggleTheme}
-            className="px-4 py-2 font-bold text-white bg-purple-500 rounded hover:bg-purple-700"
-          >
-            Temayı Değiştir
-          </button>
-          <p>
-            Mevcut Tema: <span className="font-semibold">{theme}</span>
-          </p>
+      {step === 'select' && (
+        <LoginUserSelect
+          employees={employees}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+          onContinue={() => setStep('pin')}
+        />
+      )}
+
+      {loading && <div className="absolute inset-x-0 top-4 mx-auto w-max rounded bg-[var(--color-surface)] px-3 py-1 text-sm shadow">Yükleniyor...</div>}
+      {error && (
+        <div
+          className="absolute inset-x-0 top-4 mx-auto w-max rounded px-3 py-1 text-sm shadow"
+          style={{ background: 'var(--color-danger)', color: 'var(--color-primary-contrast)' }}
+        >
+          {error}
         </div>
-      </div>
+      )}
+
+      {step === 'pin' && (
+        <LoginPin
+          employee={selectedEmployee}
+          onBack={() => setStep('select')}
+          onSuccess={() => {
+            setStep('success')
+            setSuccessOpen(true)
+          }}
+        />
+      )}
+
+      <LoginSuccessModal
+        open={step === 'success' && successOpen}
+        onClose={() => setSuccessOpen(false)}
+        onStartShift={() => {
+          setSuccessOpen(false)
+        }}
+      />
     </div>
   )
 }

@@ -2,3 +2,11 @@ packages:
   - backend
   - frontend
 
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - '@prisma/client'
+  - '@prisma/engines'
+  - electron
+  - esbuild
+  - prisma
+  - unrs-resolver
