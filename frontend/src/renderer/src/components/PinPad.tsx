@@ -1,4 +1,4 @@
-import { useEffect, useState, type JSX } from 'react'
+import { useEffect, useRef, useState, type JSX } from 'react'
 
 interface Props {
   length?: number
@@ -8,6 +8,8 @@ interface Props {
 
 export default function PinPad({ length = 4, onSubmit, onBack }: Props): JSX.Element {
   const [value, setValue] = useState('')
+  const valueRef = useRef(value)
+  useEffect(() => { valueRef.current = value }, [value])
 
   const press = (d: string): void => {
     if (d === 'backspace') {
@@ -20,29 +22,25 @@ export default function PinPad({ length = 4, onSubmit, onBack }: Props): JSX.Ele
     if (value.length === length) onSubmit(value)
   }
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent): void => {
+      if (e.key >= '0' && e.key <= '9') {
+        press(e.key)
+      } else if (e.key === 'Backspace') {
+        press('backspace')
+      } else if (e.key === 'Enter') {
+        if (valueRef.current.length === length) onSubmit(valueRef.current)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [length, onSubmit])
+
   const digits = ['1','2','3','4','5','6','7','8','9','0']
 
   return (
     <div className="w-full">
-      {/* Keyboard support: digits/backspace/enter */}
-      {(() => {
-        // attach once when component mounts
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useEffect(() => {
-          const onKey = (e: KeyboardEvent): void => {
-            if (e.key >= '0' && e.key <= '9') {
-              press(e.key)
-            } else if (e.key === 'Backspace') {
-              press('backspace')
-            } else if (e.key === 'Enter') {
-              confirm()
-            }
-          }
-          window.addEventListener('keydown', onKey)
-          return () => window.removeEventListener('keydown', onKey)
-        }, [value, length])
-        return null
-      })()}
+      {/* Keyboard support: digits/backspace/enter (attached once) */}
       <div className="mb-6 flex justify-center gap-3">
         {Array.from({ length }).map((_, i) => (
           <div
